@@ -21,8 +21,20 @@
 
       <% @reviews.each do |review| %>
       <tr>
-        <td><%= review.user.email %></td>
-        <td><%= review.space.created_at %></td>
+        <td>
+          <% if review.user.present? %>
+            <a href="/users/<%= review.user.id %>">
+              <%= review.user.email %>
+            </a>
+          <% end %>
+        </td>
+        <td>
+          <% if review.space.present? %>
+            <a href="/spaces/<%= review.space.id %>">
+              <%= review.space.created_at %>
+            </a>
+          <% end %>
+        </td>
         <td><%= review.ambience %></td>
         <td><%= review.roominess %></td>
         <td><%= review.fooddrink %></td>
