@@ -1,0 +1,91 @@
+<!-- Validation failure messages -->
+<% if @review.errors.any? %>
+  <% @review.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Review</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_review" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @review.user_id %>">
+      </div>
+
+      <!-- Label and input for space_id -->
+      <div class="form-group">
+        <label for="space_id" class="control-label">
+          Space
+        </label>
+
+        <input type="text" id="space_id" name="space_id" placeholder="Space" class="form-control" value="<%= @review.space_id %>">
+      </div>
+
+      <!-- Label and input for ambience -->
+      <div class="form-group">
+        <label for="ambience" class="control-label">
+          Ambience
+        </label>
+
+        <input type="text" id="ambience" name="ambience" placeholder="Ambience" class="form-control" value="<%= @review.ambience %>">
+      </div>
+
+      <!-- Label and input for roominess -->
+      <div class="form-group">
+        <label for="roominess" class="control-label">
+          Roominess
+        </label>
+
+        <input type="text" id="roominess" name="roominess" placeholder="Roominess" class="form-control" value="<%= @review.roominess %>">
+      </div>
+
+      <!-- Label and input for fooddrink -->
+      <div class="form-group">
+        <label for="fooddrink" class="control-label">
+          Fooddrink
+        </label>
+
+        <input type="text" id="fooddrink" name="fooddrink" placeholder="Fooddrink" class="form-control" value="<%= @review.fooddrink %>">
+      </div>
+
+      <!-- Label and input for outlets -->
+      <div class="form-group">
+        <label for="outlets" class="control-label">
+          Outlets
+        </label>
+
+        <input type="text" id="outlets" name="outlets" placeholder="Outlets" class="form-control" value="<%= @review.outlets %>">
+      </div>
+
+      <!-- Label and input for wifi -->
+      <div class="form-group">
+        <label for="wifi" class="control-label">
+          Wifi
+        </label>
+
+        <input type="text" id="wifi" name="wifi" placeholder="Wifi" class="form-control" value="<%= @review.wifi %>">
+      </div>
+
+      <button class="btn btn-success">
+        Create Review
+      </button>
+      or
+      <a href="/reviews">Cancel</a>
+    </form>
+  </div>
+</div>
