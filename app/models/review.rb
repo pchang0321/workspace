@@ -5,4 +5,6 @@ class Review < ApplicationRecord
 
   # Validations
 
+  validates :user_id, :uniqueness => { :scope => [:space_id] }
+
 end
