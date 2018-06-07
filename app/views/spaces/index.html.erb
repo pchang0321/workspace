@@ -19,7 +19,7 @@
       <tr>
         <td><%= space.address %></td>
         <td><%= space.phone_number %></td>
-        <td><%= space.picture %></td>
+        <td><img src='<%= space.picture %>' class='img-responsive'></td>
         <td>
           <a href="/spaces/<%= space.id %>" class="btn btn-primary">Show</a>
           <a href="/spaces/<%= space.id %>/edit" class="btn btn-warning">Edit</a>
