@@ -1,6 +1,11 @@
 class SpacesController < ApplicationController
   def index
     @spaces = Space.all
+    @location_hash = Gmaps4rails.build_markers(@spaces.where.not(:address_latitude => nil)) do |space, marker|
+      marker.lat space.address_latitude
+      marker.lng space.address_longitude
+      marker.infowindow "<h5><a href='/spaces/#{space.id}'>#{space.created_at}</a></h5><small>#{space.address_formatted_address}</small>"
+    end
 
     render("spaces/index.html.erb")
   end

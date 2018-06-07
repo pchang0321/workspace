@@ -50,3 +50,5 @@ gem 'activeadmin', '1.2.1'
 gem 'carrierwave'
 gem 'cloudinary'
 gem 'dotenv-rails', :groups => [:development, :test]
+gem 'gmaps4rails'
+gem 'underscore-rails'
