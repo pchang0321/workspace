@@ -6,6 +6,10 @@ class User < ApplicationRecord
 
   # Indirect associations
 
+  has_many   :spaces,
+             :through => :reviews,
+             :source => :space
+
   # Validations
 
   # Include default devise modules. Others available are:
