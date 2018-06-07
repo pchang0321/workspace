@@ -1,4 +1,6 @@
 ActiveAdmin.register Review do
+
+ permit_params :user_id, :space_id, :ambience, :roominess, :fooddrink, :outlets, :wifi
 # See permitted parameters documentation:
 # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
 #
