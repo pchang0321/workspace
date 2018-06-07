@@ -57,6 +57,68 @@
           </div>
         </li>
       <% end %>
+
+      <li class="list-group-item">
+        <form action="/create_review" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for user_id -->
+      <input type="hidden" name="user_id" value="<%= current_user.id %>">
+
+      <!-- Label and input for space_id -->
+      <input type="hidden" name="space_id" value="<%= @space.id %>">
+
+      <!-- Label and input for ambience -->
+      <div class="form-group">
+        <label for="ambience" class="control-label">
+          Ambience
+        </label>
+
+        <input type="text" id="ambience" name="ambience" placeholder="Ambience" class="form-control" value="">
+      </div>
+
+      <!-- Label and input for roominess -->
+      <div class="form-group">
+        <label for="roominess" class="control-label">
+          Roominess
+        </label>
+
+        <input type="text" id="roominess" name="roominess" placeholder="Roominess" class="form-control" value="">
+      </div>
+
+      <!-- Label and input for fooddrink -->
+      <div class="form-group">
+        <label for="fooddrink" class="control-label">
+          Fooddrink
+        </label>
+
+        <input type="text" id="fooddrink" name="fooddrink" placeholder="Fooddrink" class="form-control" value="">
+      </div>
+
+      <!-- Label and input for outlets -->
+      <div class="form-group">
+        <label for="outlets" class="control-label">
+          Outlets
+        </label>
+
+        <input type="text" id="outlets" name="outlets" placeholder="Outlets" class="form-control" value="">
+      </div>
+
+      <!-- Label and input for wifi -->
+      <div class="form-group">
+        <label for="wifi" class="control-label">
+          Wifi
+        </label>
+
+        <input type="text" id="wifi" name="wifi" placeholder="Wifi" class="form-control" value="">
+      </div>
+
+      <button class="btn btn-block btn-success">
+        Create Review
+      </button>
+    </form>
+      </li>
     </ul>
   </div>
 </div>

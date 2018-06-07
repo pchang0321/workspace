@@ -6,6 +6,7 @@ class SpacesController < ApplicationController
   end
 
   def show
+    @review = Review.new
     @space = Space.find(params[:id])
 
     render("spaces/show.html.erb")
