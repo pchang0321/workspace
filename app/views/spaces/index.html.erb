@@ -1,0 +1,32 @@
+<div class="page-header">
+  <h1>
+    Spaces
+    <a href="/spaces/new" class="btn btn-lg btn-success">New Space</a>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Address</th>
+        <th>Phone number</th>
+        <th>Picture</th>
+        <th>Actions</th>
+      </tr>
+
+      <% @spaces.each do |space| %>
+      <tr>
+        <td><%= space.address %></td>
+        <td><%= space.phone_number %></td>
+        <td><%= space.picture %></td>
+        <td>
+          <a href="/spaces/<%= space.id %>" class="btn btn-primary">Show</a>
+          <a href="/spaces/<%= space.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_space/<%= space.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>
