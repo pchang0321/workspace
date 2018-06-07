@@ -33,7 +33,7 @@
           Space
         </label>
 
-        <input type="text" id="space_id" name="space_id" placeholder="Space" class="form-control" value="<%= @review.space_id %>">
+        <%= select_tag(:space_id, options_from_collection_for_select(Space.all, :id, :created_at, @review.space_id), :class => "form-control") %>
       </div>
 
       <!-- Label and input for ambience -->
