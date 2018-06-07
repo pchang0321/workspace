@@ -30,8 +30,11 @@
         <td><%= review.wifi %></td>
         <td>
           <a href="/reviews/<%= review.id %>" class="btn btn-primary">Show</a>
-          <a href="/reviews/<%= review.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_review/<%= review.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          
+          <% if current_user == review.user %>
+            <a href="/reviews/<%= review.id %>/edit" class="btn btn-warning">Edit</a>
+            <a href="/delete_review/<%= review.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% end %>
         </td>
       </tr>
       <% end %>
