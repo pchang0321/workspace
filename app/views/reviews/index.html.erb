@@ -22,7 +22,7 @@
       <% @reviews.each do |review| %>
       <tr>
         <td><%= review.user.email %></td>
-        <td><%= review.space_id %></td>
+        <td><%= review.space.created_at %></td>
         <td><%= review.ambience %></td>
         <td><%= review.roominess %></td>
         <td><%= review.fooddrink %></td>
