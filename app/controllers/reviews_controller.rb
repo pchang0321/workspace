@@ -52,8 +52,6 @@ class ReviewsController < ApplicationController
 
   def update
     @review = Review.find(params[:id])
-
-    @review.user_id = params[:user_id]
     @review.space_id = params[:space_id]
     @review.ambience = params[:ambience]
     @review.roominess = params[:roominess]
