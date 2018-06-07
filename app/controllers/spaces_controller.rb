@@ -1,6 +1,7 @@
 class SpacesController < ApplicationController
   def index
-    @spaces = Space.page(params[:page]).per(10)
+    @q = Space.ransack(params[:q])
+    @spaces = @q.result(:distinct => true).includes(:reviews, :users).page(params[:page]).per(10)
     @location_hash = Gmaps4rails.build_markers(@spaces.where.not(:address_latitude => nil)) do |space, marker|
       marker.lat space.address_latitude
       marker.lng space.address_longitude
