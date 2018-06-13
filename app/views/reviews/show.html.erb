@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h3>Review #<%= @review.id %></h3>
+  <h3>Review for <%= @review.space.name %></h3>
 </div>
 
 <div class="row">
@@ -18,7 +18,7 @@
       <dd>
         <% if @review.space.present? %>
           <a href="/spaces/<%= @review.space_id %>">
-            <%= @review.space.created_at %>
+            <%= @review.space.name %>
           </a>
         <% end %>
       </dd>
@@ -38,10 +38,17 @@
       <dt>Wifi</dt>
       <dd><%= @review.wifi %></dd>
 
+      <dt>Overall</dt>
+      <dd><%= @review.overall %></dd>
+      
+      <dt>Comments</dt>
+      <dd><%= @review.comments %></dd>
+      
+
     </dl>
 
     <div class="btn-group btn-group-justified">
-      <a href="/reviews" class="btn btn-primary">
+      <a href="/spaces" class="btn btn-primary">
         Back
       </a>
       <% if current_user == @review.user %>

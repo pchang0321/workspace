@@ -27,7 +27,7 @@
           Space
         </label>
 
-        <%= select_tag(:space_id, options_from_collection_for_select(Space.all, :id, :created_at, @review.space_id), :class => "form-control") %>
+        <%= select_tag(:space_id, options_from_collection_for_select(Space.all, :id, :name, @review.space_id), :class => "form-control") %>
       </div>
 
       <!-- Label and input for ambience -->
@@ -36,7 +36,7 @@
           Ambience
         </label>
 
-        <input type="text" id="ambience" name="ambience" placeholder="Ambience" class="form-control" value="<%= @review.ambience %>">
+        <%= select_tag(:ambience, options_for_select(1..5), :class => "form-control") %>
       </div>
 
       <!-- Label and input for roominess -->
@@ -45,7 +45,7 @@
           Roominess
         </label>
 
-        <input type="text" id="roominess" name="roominess" placeholder="Roominess" class="form-control" value="<%= @review.roominess %>">
+        <%= select_tag(:roominess, options_for_select(1..5), :class => "form-control") %>
       </div>
 
       <!-- Label and input for fooddrink -->
@@ -54,7 +54,7 @@
           Fooddrink
         </label>
 
-        <input type="text" id="fooddrink" name="fooddrink" placeholder="Fooddrink" class="form-control" value="<%= @review.fooddrink %>">
+        <%= select_tag(:fooddrink, options_for_select(1..5), :class => "form-control") %>
       </div>
 
       <!-- Label and input for outlets -->
@@ -63,7 +63,7 @@
           Outlets
         </label>
 
-        <input type="text" id="outlets" name="outlets" placeholder="Outlets" class="form-control" value="<%= @review.outlets %>">
+        <%= select_tag(:outlets, options_for_select(1..5), :class => "form-control") %>
       </div>
 
       <!-- Label and input for wifi -->
@@ -72,7 +72,16 @@
           Wifi
         </label>
 
-        <input type="text" id="wifi" name="wifi" placeholder="Wifi" class="form-control" value="<%= @review.wifi %>">
+        <%= select_tag(:wifi, options_for_select(1..5), :class => "form-control") %>
+      </div>
+      
+      <!-- Label and input for comments -->
+      <div class="form-group">
+        <label for="comments" class="control-label">
+          Comments
+        </label>
+
+        <input type="text" id="comments" name="comments" value="<%= @review.comments %>" class="form-control">
       </div>
 
       <button class="btn btn-warning">

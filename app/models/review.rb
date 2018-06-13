@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: reviews
+#
+#  id         :integer          not null, primary key
+#  user_id    :integer
+#  space_id   :integer
+#  ambience   :integer
+#  roominess  :integer
+#  fooddrink  :integer
+#  outlets    :integer
+#  wifi       :integer
+#  created_at :datetime
+#  updated_at :datetime
+#  overall    :float
+#  comments   :text
+#
+
 class Review < ApplicationRecord
   # Direct associations
 

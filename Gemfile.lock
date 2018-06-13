@@ -86,6 +86,9 @@ GEM
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    annotate (2.7.4)
+      activerecord (>= 3.2, < 6.0)
+      rake (>= 10.4, < 13.0)
     arbre (1.1.1)
       activesupport (>= 3.0.0)
     arel (7.1.4)
@@ -200,6 +203,10 @@ GEM
       rails
     orm_adapter (0.5.0)
     pg (0.21.0)
+    phony (2.16.4)
+    phony_rails (0.14.7)
+      activesupport (>= 3.0)
+      phony (> 2.15)
     polyamorous (1.3.3)
       activerecord (>= 3.0)
     puma (3.11.4)
@@ -308,6 +315,7 @@ PLATFORMS
 DEPENDENCIES
   activeadmin (= 1.2.1)
   activerecord-import
+  annotate
   bootstrap3-datetimepicker-rails (~> 4.17.43)
   bootstrap4-kaminari-views
   byebug
@@ -325,6 +333,7 @@ DEPENDENCIES
   listen (~> 3.0.5)
   momentjs-rails (>= 2.9.0)
   pg
+  phony_rails
   puma (~> 3.0)
   rails (~> 5.0.0, >= 5.0.0.1)
   rails_12factor
@@ -341,4 +350,4 @@ DEPENDENCIES
   web_git!
 
 BUNDLED WITH
-   1.15.2
+   1.15.4

@@ -1,160 +1,243 @@
 <div class="page-header">
-  <h3>Space #<%= @space.id %></h3>
+  <h1 class="text-center"><%= @space.name %></h1>
+  <h4 class="text-center"><%= @space.address %></h4>
+  <h4 class="text-center"><%= @space.phone_number.phony_formatted(normalize: :US, format: :national) %></h4>  
+  
+
+  <img src="<%= @space.picture %>" class="img-responsive" style="margin: 0 auto;">
 </div>
 
 <div class="row">
   <div class="col-md-12 mb-2">
-    <dl class="dl-horizontal">
-      <dt>Address</dt>
-      <dd>
-        <div>
-          <div id="location_map" style="height: 480px;"></div>
-        </div>
-      </dd>
-
-      <dt>Phone number</dt>
-      <dd><%= @space.phone_number %></dd>
-
-      <dt>Picture</dt>
-      <dd><img src="<%= @space.picture %>" class="img-responsive"></dd>
-
-    </dl>
-
-    <div class="btn-group btn-group-justified">
-      <a href="/spaces" class="btn btn-primary">
-        Back
-      </a>
-      <a href="/spaces/<%= @space.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_space/<%= @space.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
-    </div>
+     <div id="location_map" style="height: 480px;"></div>
   </div>
 </div>
+
+<hr />
+
+<div class="row">
+  <dl class="dl-horizontal">
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center"><strong>Ambience</strong></div></th>
+    </div>
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center"><strong>Roominess</strong></div></th>    </div>
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center"><strong>Food & Drink</strong></div></th>
+    </div>
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center"><strong>Outlets</strong></div></th>
+    </div>
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center"><strong>Wifi</strong></div></th>
+    </div>
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center"><strong>Overall</strong></div></th>
+    </div>
+  </dl>
+</div>
+
+<div class="row">
+  <dl class="dl-horizontal">
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center">
+        <% if @space.reviews.average(:ambience).nil? %>
+        <% else %>
+        <%= @space.reviews.average(:ambience).round(1) %>
+        <% end %>
+      </div></th>
+    </div>
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center">
+        <% if @space.reviews.average(:roominess).nil? %>
+        <% else %>
+        <%= @space.reviews.average(:roominess).round(1) %>
+        <% end %>
+      </div></th>    
+      </div>
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center">        
+      <% if @space.reviews.average(:fooddrink).nil? %>
+        <% else %>
+        <%= @space.reviews.average(:fooddrink).round(1) %>
+        <% end %>
+      </div></th> 
+    </div>
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center">        
+        <% if @space.reviews.average(:outlets).nil? %>
+        <% else %>
+        <%= @space.reviews.average(:outlets).round(1) %>
+        <% end %>
+      </div></th> 
+    </div>
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center">
+        <% if @space.reviews.average(:wifi).nil? %>
+        <% else %>
+        <%= @space.reviews.average(:wifi).round(1) %>
+        <% end %>
+      </div></th> 
+    </div>
+    <div class="col-md-2 mb-2">
+      <th><div class="text-center"><strong>        
+        <% if @space.reviews.average(:overall).nil? %>
+        <% else %>
+        <%= @space.reviews.average(:overall).round(1) %>
+        <% end %>
+      </strong></div></th>
+    </div>
+  </dl>
+</div>
+
+<hr />
 
 <!-- A Space has many reviews -->
 
 <div class="row">
   <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Reviews
-      </li>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Comments (<%= @space.reviews.count %> reviews)
+      </div>  
+      
+      <div class="panel-body">
 
-      <% @space.reviews.each do |review| %>
-        <li class="list-group-item">
-          <a href="/reviews/<%= review.id %>">
-            <%= review.user_id %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/reviews/<%= review.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/reviews/<%= review.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_review/<%= review.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-
-      <li class="list-group-item">
-        <form action="/create_review" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-
-      <!-- Label and input for user_id -->
-      <input type="hidden" name="user_id" value="<%= current_user.id %>">
-
-      <!-- Label and input for space_id -->
-      <input type="hidden" name="space_id" value="<%= @space.id %>">
-
-      <!-- Label and input for ambience -->
-      <div class="form-group">
-        <label for="ambience" class="control-label">
-          Ambience
-        </label>
-
-        <input type="text" id="ambience" name="ambience" placeholder="Ambience" class="form-control" value="">
+        <% @space.reviews.all.order(created_at: :desc).each do |review| %>
+              <h6>
+                <a href="/users/<%= review.user_id %>"><%= User.find(review.user_id).email %></a>
+                  <small>
+                    <%= time_ago_in_words(review.created_at) %>
+                  </small>
+              </h6>
+              
+              <div>
+                <%= review.comments %>
+  
+                <% if review.user_id == current_user.id %>
+                  <div class="btn-group btn-group-xs pull-right">
+                    <a href="/reviews/<%= review.id %>" class="btn btn-default">
+                      <i class="fa fa-search-plus"></i>
+                    </a>
+                    <a href="/reviews/<%= review.id %>/edit" class="btn btn-default">
+                      <i class="fa fa-edit"></i>
+                    </a>
+                    <a href="/delete_review/<%= review.id %>" class="btn btn-default" rel="nofollow">
+                      <i class="fa fa-trash-o"></i>
+                    </a>
+                  </div>
+                <% else %>
+                  <div class="btn-group btn-group-xs pull-right">
+                    <a href="/reviews/<%= review.id %>" class="btn btn-default">
+                      <i class="fa fa-search-plus"></i>
+                    </a>
+                  </div>
+                <% end %>
+              </div>
+        <% end %>
       </div>
+    </div>
 
-      <!-- Label and input for roominess -->
-      <div class="form-group">
-        <label for="roominess" class="control-label">
-          Roominess
-        </label>
-
-        <input type="text" id="roominess" name="roominess" placeholder="Roominess" class="form-control" value="">
-      </div>
-
-      <!-- Label and input for fooddrink -->
-      <div class="form-group">
-        <label for="fooddrink" class="control-label">
-          Fooddrink
-        </label>
-
-        <input type="text" id="fooddrink" name="fooddrink" placeholder="Fooddrink" class="form-control" value="">
-      </div>
-
-      <!-- Label and input for outlets -->
-      <div class="form-group">
-        <label for="outlets" class="control-label">
-          Outlets
-        </label>
-
-        <input type="text" id="outlets" name="outlets" placeholder="Outlets" class="form-control" value="">
-      </div>
-
-      <!-- Label and input for wifi -->
-      <div class="form-group">
-        <label for="wifi" class="control-label">
-          Wifi
-        </label>
-
-        <input type="text" id="wifi" name="wifi" placeholder="Wifi" class="form-control" value="">
-      </div>
-
-      <button class="btn btn-block btn-success">
-        Create Review
-      </button>
-    </form>
-      </li>
-    </ul>
+  <% if @space.reviews.where(user_id: current_user.id).exists? %>
+  <% else %>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Review this space
+          </div>  
+          
+          <div class="panel-body">
+    
+          <form action="/create_review" method="post">
+            <!-- Hidden input for authenticity token to protect from forgery -->
+            <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+      
+            <!-- Label and input for user_id -->
+            <input type="hidden" name="user_id" value="<%= current_user.id %>">
+      
+            <!-- Label and input for space_id -->
+            <input type="hidden" name="space_id" value="<%= @space.id %>">
+      
+            <!-- Label and input for ambience -->
+            <div class="form-group">
+              <label for="ambience" class="control-label">
+                Ambience
+              </label>
+      
+              <%= select_tag(:ambience, options_for_select(1..5), :class => "form-control") %>
+            </div>
+      
+            <!-- Label and input for roominess -->
+            <div class="form-group">
+              <label for="roominess" class="control-label">
+                Roominess
+              </label>
+      
+              <%= select_tag(:roominess, options_for_select(1..5), :class => "form-control") %>
+            </div>
+      
+            <!-- Label and input for fooddrink -->
+            <div class="form-group">
+              <label for="fooddrink" class="control-label">
+                Food & Drink
+              </label>
+      
+              <%= select_tag(:fooddrink, options_for_select(1..5), :class => "form-control") %>
+            </div>
+      
+            <!-- Label and input for outlets -->
+            <div class="form-group">
+              <label for="outlets" class="control-label">
+                Outlets
+              </label>
+      
+              <%= select_tag(:outlets, options_for_select(1..5), :class => "form-control") %>
+            </div>
+      
+            <!-- Label and input for wifi -->
+            <div class="form-group">
+              <label for="wifi" class="control-label">
+                Wifi
+              </label>
+      
+              <%= select_tag(:wifi, options_for_select(1..5), :class => "form-control") %>
+            </div>
+      
+            <!-- Label and input for comments -->
+            <div class="form-group">
+              <label for="comments" class="control-label">
+                Comments
+              </label>
+      
+              <input type="text" id="comments" name="comments" placeholder="Add comments here" class="form-control">
+            </div>
+      
+            <button class="btn btn-block btn-success">
+              Create Review
+            </button>
+        </form>
+    </div>
   </div>
+  <% end %>
+
+
+</div>
 </div>
 
-<!-- A Space has many users -->
-
 <div class="row">
-  <div class="col-md-12">
-    <ul class="list-group">
-      <li class="list-group-item list-group-item-info">
-        Users
-      </li>
-
-      <% @space.users.each do |user| %>
-        <li class="list-group-item">
-          <a href="/users/<%= user.id %>">
-            <%= user.email %>
-          </a>
-          <div class="btn-group btn-group-xs pull-right">
-            <a href="/users/<%= user.id %>" class="btn btn-primary">
-              <i class="fa fa-search-plus"></i>
-            </a>
-            <a href="/users/<%= user.id %>/edit" class="btn btn-warning">
-              <i class="fa fa-edit"></i>
-            </a>
-            <a href="/delete_user/<%= user.id %>" class="btn btn-danger" rel="nofollow">
-              <i class="fa fa-trash-o"></i>
-            </a>
-          </div>
-        </li>
-      <% end %>
-    </ul>
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+      
+    <div class="btn-group btn-group-justified">
+      <a href="/spaces" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/spaces/<%= @space.id %>/edit" class="btn btn-warning">
+        Edit Space
+      </a>
+      <a href="/delete_space/<%= @space.id %>" class="btn btn-danger" rel="nofollow">
+        Delete Space
+      </a>
+    </div>
   </div>
 </div>
 
@@ -173,5 +256,6 @@
     ]);
     handler.bounds.extendWith(markers);
     handler.fitMapToBounds();
+    handler.getMap().setZoom(17);
   });
 </script>

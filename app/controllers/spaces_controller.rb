@@ -27,6 +27,7 @@ class SpacesController < ApplicationController
   def create
     @space = Space.new
 
+    @space.name = params[:name]
     @space.address = params[:address]
     @space.phone_number = params[:phone_number]
     @space.picture = params[:picture]
@@ -56,6 +57,7 @@ class SpacesController < ApplicationController
   def update
     @space = Space.find(params[:id])
 
+    @space.name = params[:name]
     @space.address = params[:address]
     @space.phone_number = params[:phone_number]
     @space.picture = params[:picture]

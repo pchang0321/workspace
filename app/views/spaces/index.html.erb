@@ -3,121 +3,83 @@
     Spaces
     <a href="/spaces/new" class="btn btn-lg btn-success">New Space</a>
   </h1>
-</div><div class="row mb-1">
-  <div class="col-md-12">
-    <%= search_form_for @q, :class => collapse_search_form, :id => "spaces_filters" do |f| %>
-      <p class="lead">Narrow results:</p>
-
-        <div class="form-group">
-  <%= f.label :phone_number, "Phone number" %>
-  <div class="row">
-    <div class='col-md-6 mb-1'>
-      <%= f.text_field :phone_number_gteq, :class => "form-control", :placeholder => "Phone number greater than or equal to" %>
-    </div>
-    <div class='col-md-6'>
-      <%= f.text_field :phone_number_lteq, :class => "form-control", :placeholder => "Phone number less than or equal to" %>
-    </div>
-  </div>
 </div>
 
-<div class="form-group">
-          <%= f.label :created_at, "Created at" %>
-          <div class="row">
-            <div class='col-md-6 mb-1'>
-              <div class='input-group date' id='created_atgteqPicker'>
-                  <%= f.text_field :created_at_gteq, :class => "form-control", :placeholder => "Created at greater than or equal to" %>
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-              </div>
-            </div>
-
-            <div class='col-md-6'>
-              <div class='input-group date' id='created_atlteqPicker'>
-                  <%= f.text_field :created_at_lteq, :class => "form-control", :placeholder => "Created at less than or equal to" %>
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-              </div>
-            </div>
-          </div>
-      </div>
-      <script type="text/javascript">
-          $(function () {
-              $('#created_atgteqPicker').datetimepicker({
-                  format: 'YYYY-MM-DD hh:mm:SS'
-              });
-              $('#created_atlteqPicker').datetimepicker({
-                  useCurrent: false,
-                  format: 'YYYY-MM-DD hh:mm:SS'
-              });
-              $('#created_atgteqPicker').on("dp.change", function (e) {
-                  $('#created_atlteqPicker').data("DateTimePicker").minDate(e.date);
-              });
-              $('#created_atlteqPicker').on("dp.change", function (e) {
-                  $('#created_atgteqPicker').data("DateTimePicker").maxDate(e.date);
-              });
-          });
-      </script>
-
-        <div class="form-group">
-      <%= f.label :users_email_cont, "User email contains" %>
-      <%= f.text_field :users_email_cont, :class => "form-control", :placeholder => "User email contains" %>
-    </div>
-
-      <%= f.submit :class => "btn btn-primary btn-block mb-1" %>
-
-      <a href="/spaces" class="btn btn-default btn-block mb-1">Clear filters</a>
-    <% end %>
-    <a class="btn btn-default btn-block mb-1" data-toggle="collapse" href="#spaces_filters">
-      Show Filters
-    </a>
-  </div>
-</div>
-
-
-<div class="row m-b-2">
-  <div class="col-md-12">
-    <div>
-      <div id="location_map" style="height: 480px;"></div>
-    </div>
-  </div>
-</div>
-
+<!--Space Listing-->
 <div class="row">
   <div class="col-md-12">
     <table class="table table-striped table-hover">
       <tr>
+        <th></th>
+        <th>Space Name</th>
         <th>Address</th>
         <th>Phone number</th>
-        <th>Picture</th>
+        <th>Ambience</th>
+        <th>Roominess</th>
+        <th>Food & Drink</th>
+        <th>Outlets</th>
+        <th>Wifi</th>
+        <th>Overall</th>
+        <th>Reviews</th>
         <th>Actions</th>
       </tr>
 
-      <% @spaces.each do |space| %>
+      <% @spaces.order(name: :asc).each do |space| %>
       <tr>
+        <td><img src='<%= space.picture %>' class='img-fluid' style="width: 100px" style "height: 100px"></td>
+        <td><%= space.name %></td>
         <td><%= space.address %></td>
-        <td><%= space.phone_number %></td>
-        <td><img src='<%= space.picture %>' class='img-responsive'></td>
-        <td>
-          <a href="/spaces/<%= space.id %>" class="btn btn-primary">Show</a>
-          <a href="/spaces/<%= space.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_space/<%= space.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        <td><%= space.phone_number.phony_formatted(normalize: :US, format: :national) %></td>
+        <td class="text-center">
+          <% if space.reviews.average(:ambience).nil? %>
+          <% else %>
+          <%= space.reviews.average(:ambience).round(1) %>
+          <% end %>
         </td>
+        <td class="text-center">
+          <% if space.reviews.average(:roominess).nil? %>
+          <% else %>
+          <%= space.reviews.average(:roominess).round(1) %>
+          <% end %>
+        </td>
+        <td class="text-center">
+          <% if space.reviews.average(:fooddrink).nil? %>
+          <% else %>
+          <%= space.reviews.average(:fooddrink).round(1) %>
+          <% end %>
+        </td>
+        <td class="text-center">
+          <% if space.reviews.average(:outlets).nil? %>
+          <% else %>
+          <%= space.reviews.average(:outlets).round(1) %></td>
+          <% end %>
+        <td class="text-center">
+          <% if space.reviews.average(:wifi).nil? %>
+          <% else %>
+          <%= space.reviews.average(:wifi).round(1) %>
+          <% end %>
+        </td>
+        <td class="text-center"><strong>
+          <% if space.reviews.average(:overall).nil? %>
+          <% else %>
+          <%= space.reviews.average(:overall).round(1) %></strong></td>
+          <% end %>
+        <td>
+          <div class="text-center"><%= Review.where(space_id: space.id).count %></div>
+        </td>
+        <td>
+          <% if Review.where(space_id: space.id, user_id: current_user.id).exists? %>
+          <a href="/reviews/<%= Review.find_by(space_id: space.id, user_id: current_user.id).id %>" class="btn btn-default btn-sm">Your Review</a>
+          <% else %>
+          <a href="/reviews/new" class="btn btn-success btn-sm">Add a Review</a>
+          <% end %>
+          <a href="/spaces/<%= space.id %>" class="btn btn-primary btn-sm">Space Details</a>
+          <a href="/spaces/<%= space.id %>/edit" class="btn btn-warning btn-sm">Edit Space</a>
+        </td>
+    
       </tr>
       <% end %>
     </table>
     <%= paginate @spaces, theme: 'twitter-bootstrap-4' %>
   </div>
 </div>
-
-<script src="//maps.google.com/maps/api/js?v=3.24&key=AIzaSyCOTPWiuvyyo6sKoIBzKA4-1ol-vTOIOlM"></script>
-<script src="//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js"></script>
-<script>
-  handler = Gmaps.build('Google');
-  handler.buildMap({ provider: {}, internal: {id: 'location_map'}}, function(){
-    markers = handler.addMarkers(<%= raw @location_hash.to_json %>);
-    handler.bounds.extendWith(markers);
-    handler.fitMapToBounds();
-  });
-</script>

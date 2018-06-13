@@ -1,5 +1,5 @@
 class ReviewsController < ApplicationController
-  before_action :current_user_must_be_review_user, :only => [:show, :edit, :update, :destroy]
+  before_action :current_user_must_be_review_user, :only => [:edit, :update, :destroy]
 
   def current_user_must_be_review_user
     review = Review.find(params[:id])
@@ -38,7 +38,9 @@ class ReviewsController < ApplicationController
     @review.fooddrink = params[:fooddrink]
     @review.outlets = params[:outlets]
     @review.wifi = params[:wifi]
-
+    @review.overall = (@review.ambience + @review.roominess + @review.fooddrink + @review.outlets + @review.wifi)/5
+    @review.comments = params[:comments]
+    
     save_status = @review.save
 
     if save_status == true
@@ -46,7 +48,7 @@ class ReviewsController < ApplicationController
 
       case referer
       when "/reviews/new", "/create_review"
-        redirect_to("/reviews")
+        redirect_to("/spaces/#{@review.space_id}")
       else
         redirect_back(:fallback_location => "/", :notice => "Review created successfully.")
       end
@@ -69,6 +71,8 @@ class ReviewsController < ApplicationController
     @review.fooddrink = params[:fooddrink]
     @review.outlets = params[:outlets]
     @review.wifi = params[:wifi]
+    @review.overall = (@review.ambience + @review.roominess + @review.fooddrink + @review.outlets + @review.wifi)/5
+    @review.comments = params[:comments]
 
     save_status = @review.save
 
